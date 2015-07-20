@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/Sirupsen/logrus"
 	"net"
+	"time"
 )
 
 type Graphite struct {
@@ -22,7 +23,7 @@ func NewGraphite(address string, prefix string) (*Graphite, error) {
 
 // send sends an object count to Graphite.
 func (g *Graphite) Send(val int) {
-	line := fmt.Sprintf("%s %d", g.prefix, val)
+	line := fmt.Sprintf("%s %d %d", g.prefix, val, time.Now().Unix())
 	logrus.Debugf("Sending: %v", line)
 	_, _ = fmt.Fprintf(g.Conn, "%s\n", line)
 }
